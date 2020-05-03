@@ -5,28 +5,26 @@ import CartContainer from "../Cart";
 import Sections from "../Sections/Sections";
 import { CssBaseline } from "@material-ui/core";
 import CustomizeItem from "../Cart/CustomizeItem/CustomizeItem";
+import Section from "../Section/Section";
 
-const LayoutPage = ({ cartAndActions }) => (
+const LayoutPage = ({ storeAndActions }) => (
   <CssBaseline>
-    {!cartAndActions.cart.open && (
+    {!storeAndActions.cart.open && (
       <Fragment>
-        <Header cartAndActions={cartAndActions} />
+        <Header storeAndActions={storeAndActions} />
 
-        <Sections cartAndActions={cartAndActions} />
+        <Sections storeAndActions={storeAndActions} />
+        <Section storeAndActions={storeAndActions} />
 
-        {cartAndActions.cart.items.length > 0 && (
-          <Footer cartAndActions={cartAndActions} />
-        )}
+        <Footer storeAndActions={storeAndActions} />
       </Fragment>
     )}
 
-    {cartAndActions.cart.open && (
-      <CartContainer cartAndActions={cartAndActions} />
+    {storeAndActions.store.cart.open && (
+      <CartContainer storeAndActions={storeAndActions} />
     )}
 
-    {cartAndActions.cart.customizingItem && (
-      <CustomizeItem cartAndActions={cartAndActions} />
-    )}
+    <CustomizeItem storeAndActions={storeAndActions} />
   </CssBaseline>
 );
 

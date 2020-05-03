@@ -2,30 +2,30 @@ import React, { useState, useEffect } from "react";
 import Cart from "./Cart";
 import {
   getLocalStorageItem,
-  setLocalStorageItem,
+  setLocalStorageItem
 } from "../../services/localStorage/localStorage";
 import { withFirebase } from "../FirebaseContext";
 import { initialStateUserInfo } from "./initialState";
 import { getOrderAndActions, getInitialStateOrder } from "../../state/Order";
 import { isStoreOpen } from "./utils";
 
-const CartContainer = ({ cartAndActions, firebase }) => {
+const CartContainer = ({ storeAndActions, firebase }) => {
   const orderAndSet = useState(
-    getLocalStorageItem("order", { ...getInitialStateOrder() }),
+    getLocalStorageItem("order", { ...getInitialStateOrder() })
   );
   const [userInfo, setUserInfo] = useState(
-    getLocalStorageItem("userInfo", initialStateUserInfo),
+    getLocalStorageItem("userInfo", initialStateUserInfo)
   );
   const [currentDate, setCurrentDate] = useState(null);
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [deliveryNoticeOpen, setDeliveryNoticeOpen] = useState(false);
 
   const orderAndActions = getOrderAndActions({
+    storeAndActions,
     orderAndSet,
-    cartAndActions,
     currentDate,
     userInfo,
-    firebase,
+    firebase
   });
 
   const makeOrder = async () => {
@@ -46,8 +46,8 @@ const CartContainer = ({ cartAndActions, firebase }) => {
       "orders",
       orderAndActions.order.idempotencyToken,
       {
-        onSnapshot: orderAndActions.onFirebaseChange,
-      },
+        onSnapshot: orderAndActions.onFirebaseChange
+      }
     );
     setCurrentDateAsync();
 
@@ -65,7 +65,7 @@ const CartContainer = ({ cartAndActions, firebase }) => {
       makeOrder={makeOrder}
       scheduleOpen={scheduleOpen}
       updateUserInfo={updateUserInfo}
-      cartAndActions={cartAndActions}
+      storeAndActions={storeAndActions}
       orderAndActions={orderAndActions}
       deliveryNoticeOpen={deliveryNoticeOpen}
     />

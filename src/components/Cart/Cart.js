@@ -17,18 +17,14 @@ const Cart = ({
   makeOrder,
   scheduleOpen,
   updateUserInfo,
-  cartAndActions,
+  storeAndActions,
   orderAndActions,
-  deliveryNoticeOpen,
+  deliveryNoticeOpen
 }) => (
-  <Dialog
-    fullScreen
-    open={cartAndActions.cart.open}
-    TransitionComponent={DialogTransition}
-  >
+  <Dialog open fullScreen TransitionComponent={DialogTransition}>
     <Header
       title="Tu Pedido"
-      onCloseButtonClick={cartAndActions.close}
+      onCloseButtonClick={storeAndActions.close}
       hideCloseButton={orderAndActions.order.status}
     />
 
@@ -39,7 +35,7 @@ const Cart = ({
 
       <Items
         userInfo={userInfo}
-        cartAndActions={cartAndActions}
+        storeAndActions={storeAndActions}
         orderAndActions={orderAndActions}
       />
 
@@ -61,7 +57,7 @@ const Cart = ({
 
           <ClosedNotice
             scheduleOpen={scheduleOpen}
-            cartAndActions={cartAndActions}
+            storeAndActions={storeAndActions}
           />
 
           <ConfirmationButton userInfo={userInfo} makeOrder={makeOrder} />

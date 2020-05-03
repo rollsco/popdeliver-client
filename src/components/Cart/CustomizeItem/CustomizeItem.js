@@ -13,14 +13,20 @@ import { getVariantImagePathname } from "../../../state/Variant";
 import { getNewCartItem } from "../../../state/CartItem";
 import VariantPrice from "../../Layout/VariantPrice";
 
-const CustomizeItem = ({ cartAndActions }) => {
-  const { customizingItem } = cartAndActions.cart;
+const CustomizeItem = ({ storeAndActions }) => {
+  const { cart } = storeAndActions.store;
+  const { customizingItem } = cart;
+  
+  if(!customizingItem) {
+    return null;
+  }
+
   const mainId = customizingItem.main.id;
   const productId = variants[mainId].product[0];
   const product = products[productId];
 
   const handleClose = () => {
-    cartAndActions.setCustomizingItem(null);
+    storeAndActions.setCustomizingItem(null);
   };
 
   const handleChangeMain = event => {
@@ -28,17 +34,17 @@ const CustomizeItem = ({ cartAndActions }) => {
       ...getNewCartItem({ mainVariantId: event.target.value }),
       id: customizingItem.id,
     };
-    cartAndActions.setCustomizingItem(cartItem);
+    storeAndActions.setCustomizingItem(cartItem);
   };
 
   const handleAddToCart = () => {
-    cartAndActions.upsertItem(customizingItem);
+    storeAndActions.upsertItem(customizingItem);
   };
 
   return (
     <Dialog
       fullScreen
-      open={cartAndActions.cart.customizingItem ? true : false}
+      open={customizingItem ? true : false}
       TransitionComponent={DialogTransition}
     >
       <Header

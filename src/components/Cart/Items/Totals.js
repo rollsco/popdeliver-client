@@ -5,16 +5,16 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import { currency } from "../../../services/formatter/formatter";
 import {
   getTotalCost,
-  getTotalPoints,
+  getTotalPoints
 } from "../../../services/calculations/cart";
 import { getPoints } from "../../../services/calculations/email";
 
-const Totals = ({ email, cartAndActions }) => (
+const Totals = ({ email, storeAndActions }) => (
   <DialogPaper>
     <Table size="small">
       <TableBody>
@@ -25,7 +25,7 @@ const Totals = ({ email, cartAndActions }) => (
 
           <TableCell align="right">
             <Typography variant="h6" color="secondary">
-              {currency(getTotalCost(cartAndActions.cart.items))}
+              {currency(getTotalCost(storeAndActions.store.cart.items))}
             </Typography>
           </TableCell>
         </TableRow>
@@ -37,7 +37,7 @@ const Totals = ({ email, cartAndActions }) => (
 
           <TableCell align="right">
             <Typography variant="h6" color="secondary">
-              {getTotalPoints(cartAndActions.cart.items) +
+              {getTotalPoints(storeAndActions.store.cart.items) +
                 (email && getPoints(email.orders))}
             </Typography>
           </TableCell>

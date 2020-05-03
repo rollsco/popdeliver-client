@@ -4,14 +4,14 @@ import { fetchEmail } from "../../../services/entities/email";
 import Totals from "./Totals";
 import { getOrders } from "../../../services/entities/order";
 
-const TotalsContainer = ({ userInfo, cartAndActions, firebase }) => {
+const TotalsContainer = ({ userInfo, storeAndActions, firebase }) => {
   const [email, setEmail] = useState(null);
 
   useEffect(() => {
     fetchEmail({ emailAddress: userInfo.email, setEmail, firebase });
   }, []);
 
-  return <Totals email={email} cartAndActions={cartAndActions} />;
+  return <Totals email={email} storeAndActions={storeAndActions} />;
 };
 
 export default withFirebase(TotalsContainer);
