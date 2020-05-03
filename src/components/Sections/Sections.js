@@ -9,21 +9,18 @@ const StyledSections = styled.div`
   padding-top: 60px;
 `;
 
-const Sections = ({ cartAndActions }) => {
-  const [value, setValue] = useState(0);
-
+const Sections = ({ storeAndActions }) => {
+  const { sectionNumber } = storeAndActions.store;
   const handleChangeTab = (event, value) => {
-    setValue(value);
+    storeAndActions.updateSectionNumber(value);
   };
 
-  const handleChangeSwipableView = value => {
-    setValue(value);
-  };
+  const handleChangeSwipableView = value => {};
 
   return (
     <StyledSections>
       <Tabs
-        value={value}
+        value={sectionNumber}
         variant="scrollable"
         scrollButtons="auto"
         onChange={handleChangeTab}
@@ -33,22 +30,6 @@ const Sections = ({ cartAndActions }) => {
           <Tab key={menuName} label={menuName} />
         ))}
       </Tabs>
-
-      <SwipeableViews
-        axis="x"
-        index={value}
-        onChangeIndex={handleChangeSwipableView}
-      >
-        {menuSections.map((section, i) => (
-          <Section
-            key={i}
-            index={i}
-            value={value}
-            section={section}
-            cartAndActions={cartAndActions}
-          />
-        ))}
-      </SwipeableViews>
     </StyledSections>
   );
 };

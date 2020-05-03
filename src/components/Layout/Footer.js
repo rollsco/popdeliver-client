@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { Button, Paper } from "@material-ui/core";
 
@@ -17,14 +17,21 @@ export const BottomButtonPaper = styled(Paper)`
   }
 `;
 
-const Footer = ({ cartAndActions }) => (
-  <FixedBottom>
-    <BottomButtonPaper onClick={cartAndActions.open}>
-      <Button variant="contained" color="secondary">
-        ¡Haz tu pedido!
-      </Button>
-    </BottomButtonPaper>
-  </FixedBottom>
-);
+const Footer = ({ storeAndActions }) => {
+  const { cart } = storeAndActions.store;
+  if(cart.items.length === 0) {
+    return null;
+  }
+
+  return (
+    <FixedBottom>
+      <BottomButtonPaper onClick={storeAndActions.open}>
+        <Button variant="contained" color="secondary">
+          ¡Haz tu pedido!
+        </Button>
+      </BottomButtonPaper>
+    </FixedBottom>
+  );
+}
 
 export default Footer;
