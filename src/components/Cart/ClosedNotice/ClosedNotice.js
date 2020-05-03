@@ -8,7 +8,7 @@ import {
   TableHead,
   Dialog,
   DialogActions,
-  Button,
+  Button
 } from "@material-ui/core";
 import { StyledWatchLater } from "../components";
 
@@ -23,7 +23,7 @@ const Row = ({ location, from, until }) => (
   </TableRow>
 );
 
-const ClosedNotice = ({ scheduleOpen, cartAndActions }) => (
+const ClosedNotice = ({ scheduleOpen, storeAndActions }) => (
   <Dialog open={scheduleOpen}>
     <Table size="small">
       <TableHead>
@@ -45,7 +45,7 @@ const ClosedNotice = ({ scheduleOpen, cartAndActions }) => (
     </Table>
 
     <DialogActions>
-      <Button variant="contained" onClick={cartAndActions.close}>
+      <Button variant="contained" onClick={storeAndActions.close}>
         OK
       </Button>
     </DialogActions>

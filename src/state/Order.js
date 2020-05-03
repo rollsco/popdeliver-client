@@ -3,22 +3,22 @@ import { setLocalStorageItem } from "../services/localStorage/localStorage";
 import { utcDate } from "../services/formatter/formatter";
 import {
   ORDER_STATUS_PENDING,
-  ORDER_STATUS_REQUESTED,
+  ORDER_STATUS_REQUESTED
 } from "../components/Cart/Order/orderStatusMap";
 import { getTotalPoints } from "../services/calculations/cart";
 
 export const getInitialStateOrder = () => ({
   status: null,
   errors: null,
-  idempotencyToken: createToken(),
+  idempotencyToken: createToken()
 });
 
 export const getOrderAndActions = ({
+  storeAndActions,
   orderAndSet,
-  cartAndActions,
   currentDate,
   userInfo,
-  firebase,
+  firebase
 }) => {
   const [order, setOrder] = orderAndSet;
 
@@ -36,20 +36,20 @@ export const getOrderAndActions = ({
 
   const request = () => {
     const number = `${utcDate(currentDate, true, false)}-${parseInt(
-      Math.random() * 10000,
+      Math.random() * 10000
     ) + 1000}`;
 
     updateOrder({ ...order, status: ORDER_STATUS_PENDING });
 
     // Don't save Cart itself on Firestore but a copy with less data
-    const cart = { ...cartAndActions.cart };
+    const cart = { ...storeAndActions.store.cart };
     delete cart.open;
 
     const pointEntries = [
       {
         points: getTotalPoints(cart.items),
-        created: firebase.getServerTimestamp(),
-      },
+        created: firebase.getServerTimestamp()
+      }
     ];
 
     setTimeout(() => {
@@ -62,14 +62,14 @@ export const getOrderAndActions = ({
           cart,
           number,
           userInfo,
-          status: ORDER_STATUS_REQUESTED,
-        },
+          status: ORDER_STATUS_REQUESTED
+        }
       });
     }, 3000);
   };
 
   const placeNewOrder = () => {
-    cartAndActions.clear();
+    storeAndActions.clear();
     updateOrder(getInitialStateOrder());
   };
 
@@ -79,8 +79,8 @@ export const getOrderAndActions = ({
       document: order.idempotencyToken,
       data: {
         ...order,
-        rating,
-      },
+        rating
+      }
     });
   };
 
@@ -90,8 +90,8 @@ export const getOrderAndActions = ({
       document: order.idempotencyToken,
       data: {
         ...order,
-        comments,
-      },
+        comments
+      }
     });
   };
 
@@ -101,6 +101,6 @@ export const getOrderAndActions = ({
     request,
     comment,
     placeNewOrder,
-    onFirebaseChange,
+    onFirebaseChange
   };
 };

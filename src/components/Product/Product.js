@@ -4,10 +4,10 @@ import Content from "./Content";
 import { ProductCard, Media } from "./components";
 import { getNewCartItem } from "../../state/CartItem";
 
-const Product = ({ product, cartAndActions }) => {
+const Product = ({ product, storeAndActions }) => {
   const handleOpenCustomizeDialog = () => {
     const cartItem = getNewCartItem({ mainVariantId: product.variants[0] });
-    cartAndActions.setCustomizingItem(cartItem);
+    storeAndActions.setCustomizingItem(cartItem);
   };
 
   return (

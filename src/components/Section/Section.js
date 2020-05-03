@@ -24,7 +24,7 @@ const Section = ({ storeAndActions }) => {
             <Product
               key={i}
               product={product}
-              cartAndActions={storeAndActions}
+              storeAndActions={storeAndActions}
             />
           ))}
       </Grid>

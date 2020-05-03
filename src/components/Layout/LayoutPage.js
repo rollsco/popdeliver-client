@@ -11,7 +11,7 @@ const LayoutPage = ({ storeAndActions }) => (
   <CssBaseline>
     {!storeAndActions.cart.open && (
       <Fragment>
-        <Header cartAndActions={storeAndActions} />
+        <Header storeAndActions={storeAndActions} />
 
         <Sections storeAndActions={storeAndActions} />
         <Section storeAndActions={storeAndActions} />
@@ -20,8 +20,8 @@ const LayoutPage = ({ storeAndActions }) => (
       </Fragment>
     )}
 
-    {storeAndActions.cart.open && (
-      <CartContainer cartAndActions={storeAndActions} />
+    {storeAndActions.store.cart.open && (
+      <CartContainer storeAndActions={storeAndActions} />
     )}
 
     <CustomizeItem storeAndActions={storeAndActions} />

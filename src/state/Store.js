@@ -6,8 +6,8 @@ export const initialStateStore = {
   cart: {
     items: [],
     open: false,
-    customizingItem: null,
-  },
+    customizingItem: null
+  }
 };
 
 export const getStoreAndActions = storeAndSet => {
@@ -19,15 +19,15 @@ export const getStoreAndActions = storeAndSet => {
   };
 
   const updateCart = cart => {
-    updateStoreAndLocalStorage({...store, cart});
+    updateStoreAndLocalStorage({ ...store, cart });
   };
 
   const updateSectionNumber = sectionNumber => {
-    updateStoreAndLocalStorage({...store, sectionNumber});
+    updateStoreAndLocalStorage({ ...store, sectionNumber });
   };
 
   const open = () => {
-    updateCart({...store.cart, open: store.items.length > 0});
+    updateCart({ ...store.cart, open: store.cart.items.length > 0 });
   };
 
   const close = () => {
@@ -39,22 +39,22 @@ export const getStoreAndActions = storeAndSet => {
   };
 
   const removeItem = itemToRemove => {
-    const items = store.items.filter(item => item.id !== itemToRemove.id);
+    const items = store.cart.items.filter(item => item.id !== itemToRemove.id);
 
     if (items.length === 0) {
-      store.open = false;
+      store.cart.open = false;
     }
 
     updateCart({
       ...store.cart,
-      items,
+      items
     });
   };
 
   const setCustomizingItem = cartItem => {
     updateCart({
       ...store.cart,
-      customizingItem: cartItem,
+      customizingItem: cartItem
     });
   };
 
@@ -64,18 +64,18 @@ export const getStoreAndActions = storeAndSet => {
 
       updateCart({
         ...store.cart,
-        items: [...store.items, newCartItem],
-        customizingItem: null,
+        items: [...store.cart.items, newCartItem],
+        customizingItem: null
       });
     } else {
-      const itemsExceptUpdated = store.items.filter(
-        item => item.id !== cartItem.id,
+      const itemsExceptUpdated = store.cart.items.filter(
+        item => item.id !== cartItem.id
       );
 
       updateCart({
         ...store.cart,
         items: [...itemsExceptUpdated, cartItem],
-        customizingItem: null,
+        customizingItem: null
       });
     }
   };
@@ -89,6 +89,6 @@ export const getStoreAndActions = storeAndSet => {
     upsertItem,
     removeItem,
     setCustomizingItem,
-    updateSectionNumber,
+    updateSectionNumber
   };
 };

@@ -4,7 +4,7 @@ import {
   TableRow,
   TableCell,
   Table,
-  TableBody,
+  TableBody
 } from "@material-ui/core";
 import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
@@ -13,7 +13,7 @@ import { DialogPaper } from "../../UI/FullscreenDialog/components";
 import { getVariantImagePathname } from "../../../state/Variant";
 import VariantPrice from "../../Layout/VariantPrice";
 
-const Item = ({ orderAndActions, item, cartAndActions }) => (
+const Item = ({ orderAndActions, item, storeAndActions }) => (
   <DialogPaper>
     <Table size="small">
       <TableBody>
@@ -42,13 +42,13 @@ const Item = ({ orderAndActions, item, cartAndActions }) => (
               <Fragment>
                 <IconButton
                   size="small"
-                  onClick={() => cartAndActions.setCustomizingItem(item)}
+                  onClick={() => storeAndActions.setCustomizingItem(item)}
                 >
                   <Edit />
                 </IconButton>
                 <IconButton
                   size="small"
-                  onClick={() => cartAndActions.removeItem(item)}
+                  onClick={() => storeAndActions.removeItem(item)}
                 >
                   <Delete />
                 </IconButton>

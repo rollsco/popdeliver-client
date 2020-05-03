@@ -2,18 +2,18 @@ import React, { Fragment } from "react";
 import Item from "./Item";
 import TotalsContainer from "./TotalsContainer";
 
-const Items = ({ orderAndActions, userInfo, cartAndActions }) => (
+const Items = ({ orderAndActions, userInfo, storeAndActions }) => (
   <Fragment>
-    {cartAndActions.cart.items.map((item, index) => (
+    {storeAndActions.store.cart.items.map((item, index) => (
       <Item
         item={item}
         key={index}
-        cartAndActions={cartAndActions}
+        storeAndActions={storeAndActions}
         orderAndActions={orderAndActions}
       />
     ))}
 
-    <TotalsContainer userInfo={userInfo} cartAndActions={cartAndActions} />
+    <TotalsContainer userInfo={userInfo} storeAndActions={storeAndActions} />
   </Fragment>
 );
 
