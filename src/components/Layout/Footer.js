@@ -19,19 +19,19 @@ export const BottomButtonPaper = styled(Paper)`
 
 const Footer = ({ storeAndActions }) => {
   const { cart } = storeAndActions.store;
-  if(cart.items.length === 0) {
+  if (cart.items.length === 0) {
     return null;
   }
 
   return (
     <FixedBottom>
-      <BottomButtonPaper onClick={storeAndActions.open}>
+      <BottomButtonPaper onClick={storeAndActions.cartSetOpen}>
         <Button variant="contained" color="secondary">
           ¡Haz tu pedido!
         </Button>
       </BottomButtonPaper>
     </FixedBottom>
   );
-}
+};
 
 export default Footer;

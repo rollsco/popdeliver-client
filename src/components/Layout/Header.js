@@ -11,7 +11,7 @@ const Header = ({ storeAndActions }) => (
     <StyledToolbar>
       <img src="img/app-header-left.png" alt="" />
 
-      <IconButton onClick={storeAndActions.open}>
+      <IconButton onClick={storeAndActions.cartSetOpen}>
         <Badge
           badgeContent={storeAndActions.store.cart.items.length}
           color="secondary"

@@ -31,9 +31,11 @@ const Feedback = ({ storeAndActions }) => {
 
   const handleChange = ({ target }) => {
     clearTimeout(timeoutId);
+    storeAndActions.orderSetComments(target.value);
 
+    // TODO: move this delay to orderSetComments action
     timeoutId = setTimeout(() => {
-      storeAndActions.comment(target.value);
+      storeAndActions.orderLocalToFirestore();
     }, 1000);
   };
 
@@ -46,7 +48,7 @@ const Feedback = ({ storeAndActions }) => {
           <RatingStar
             key={index}
             full={index <= order.rating}
-            handleClick={() => storeAndActions.rate(index)}
+            handleClick={() => storeAndActions.orderSetRating(index)}
           />
         ))}
       </DialogContentCenter>
@@ -68,6 +70,7 @@ const Feedback = ({ storeAndActions }) => {
             variant="filled"
             label="Comentarios"
             name="ratingComments"
+            value={order.comments}
             onChange={handleChange}
           />
         </DialogContentCenter>

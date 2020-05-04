@@ -8,9 +8,9 @@ import {
 } from "../components/Order/orderStatusMap";
 
 export const getInitialStateOrder = () => ({
+  number: null,
   status: null,
   errors: null,
-  number: null,
   recipient: initialStateRecipient,
   idempotencyToken: createToken()
 });
@@ -57,8 +57,6 @@ export const getStoreAndActions = ({ storeAndSetStore, firebase }) => {
   };
 
   const orderCreateOnFirestore = () => {
-    alert("about to create an order on Firebase");
-
     updateProperty("order", {
       ...store.order,
       number: getOrderNumber(new Date()),
@@ -95,6 +93,29 @@ export const getStoreAndActions = ({ storeAndSetStore, firebase }) => {
     cartReset();
   };
 
+  const orderSetRating = rating => {
+    firebase.set({
+      path: "orders",
+      document: store.order.idempotencyToken,
+      data: {
+        ...store.order,
+        rating
+      }
+    });
+  };
+
+  const orderSetComments = comments => {
+    updateProperty("order", { ...store.order, comments });
+  };
+
+  const orderLocalToFirestore = () => {
+    firebase.set({
+      path: "orders",
+      document: store.order.idempotencyToken,
+      data: store.order
+    });
+  };
+
   /**
    * Layout actions
    */
@@ -118,14 +139,14 @@ export const getStoreAndActions = ({ storeAndSetStore, firebase }) => {
    * Cart actions
    */
 
-  const open = () => {
+  const cartSetOpen = () => {
     updateProperty("cart", {
       ...store.cart,
       open: store.cart.items.length > 0
     });
   };
 
-  const close = () => {
+  const cartSetClose = () => {
     updateProperty("cart", { ...store.cart, open: false });
   };
 
@@ -133,7 +154,7 @@ export const getStoreAndActions = ({ storeAndSetStore, firebase }) => {
     updateProperty("cart", initialStateStore.cart);
   };
 
-  const removeItem = itemToRemove => {
+  const cartRemoveItem = itemToRemove => {
     const items = store.cart.items.filter(item => item.id !== itemToRemove.id);
 
     if (items.length === 0) {
@@ -146,14 +167,14 @@ export const getStoreAndActions = ({ storeAndSetStore, firebase }) => {
     });
   };
 
-  const setCustomizingItem = cartItem => {
+  const cartSetCustomizingItem = cartItem => {
     updateProperty("cart", {
       ...store.cart,
       customizingItem: cartItem
     });
   };
 
-  const upsertItem = cartItem => {
+  const cartUpsertItem = cartItem => {
     if (!cartItem.id) {
       const newCartItem = { ...cartItem, id: getCartItemId() };
 
@@ -177,16 +198,21 @@ export const getStoreAndActions = ({ storeAndSetStore, firebase }) => {
 
   return {
     store,
-    open,
-    close,
     cartReset,
-    upsertItem,
-    removeItem,
-    setCustomizingItem,
+    cartSetOpen,
+    cartSetClose,
+    cartUpsertItem,
+    cartRemoveItem,
+    cartSetCustomizingItem,
+
     orderReset,
+    orderSetRating,
+    orderSetComments,
     orderSetRecipient,
+    orderLocalToFirestore,
     orderOnFirestoreChange,
     orderCreateOnFirestore,
+
     layoutSetSectionNumber,
     layoutSetDeliveryPriceReminderOpen,
     layoutSetOutsideServiceHoursNoticeOpen
