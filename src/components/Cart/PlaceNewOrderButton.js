@@ -13,7 +13,7 @@ const PlaceNewOrderButton = ({ storeAndActions }) => {
       <Button
         color="secondary"
         variant="contained"
-        onClick={storeAndActions.placeNewOrder}
+        onClick={storeAndActions.orderReset}
       >
         Volver a la carta
       </Button>

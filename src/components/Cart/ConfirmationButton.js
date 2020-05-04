@@ -1,26 +1,28 @@
 import React from "react";
 import { Button, Typography } from "@material-ui/core";
 import { CartButtonBox } from "./components";
-import { requiredUserInfoFields } from "./initialState";
+import { requiredRecipientFields } from "../../utils/order";
 
-const ConfirmationButton = ({ makeOrder, userInfo }) => {
-  function userInfoComplete() {
-    const emptyPropertyKeys = Object.keys(userInfo).filter(
-      key => requiredUserInfoFields.includes(key) && !userInfo[key],
+const ConfirmationButton = ({ storeAndActions, handleConfirmCart }) => {
+  const { order } = storeAndActions.store;
+
+  const recipientInfoComplete = () => {
+    const emptyPropertyKeys = Object.keys(order.recipient).filter(
+      key => requiredRecipientFields.includes(key) && !order.recipient[key]
     );
 
     return emptyPropertyKeys.length <= 0;
-  }
+  };
 
   return (
     <CartButtonBox>
       <Button
         color="secondary"
         variant="contained"
-        onClick={makeOrder}
-        disabled={!userInfoComplete()}
+        onClick={handleConfirmCart}
+        disabled={!recipientInfoComplete()}
       >
-        {userInfoComplete() ? (
+        {recipientInfoComplete() ? (
           "Listo: hacer pedido"
         ) : (
           <Typography variant="caption">

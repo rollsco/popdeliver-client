@@ -21,8 +21,9 @@ const RatingStar = ({ full, handleClick }) =>
     <StyledStarBorder fontSize="large" onClick={handleClick} />
   );
 
-const Feedback = ({ orderAndActions }) => {
-  if (!orderAndActions.order.status) {
+const Feedback = ({ storeAndActions }) => {
+  const { order } = storeAndActions.store;
+  if (!order.status) {
     return null;
   }
 
@@ -32,7 +33,7 @@ const Feedback = ({ orderAndActions }) => {
     clearTimeout(timeoutId);
 
     timeoutId = setTimeout(() => {
-      orderAndActions.comment(target.value);
+      storeAndActions.comment(target.value);
     }, 1000);
   };
 
@@ -44,13 +45,13 @@ const Feedback = ({ orderAndActions }) => {
         {[1, 2, 3, 4, 5].map(index => (
           <RatingStar
             key={index}
-            full={index <= orderAndActions.order.rating}
-            handleClick={() => orderAndActions.rate(index)}
+            full={index <= order.rating}
+            handleClick={() => storeAndActions.rate(index)}
           />
         ))}
       </DialogContentCenter>
 
-      {orderAndActions.order.rating && (
+      {order.rating && (
         <DialogContentCenter>
           <Typography variant="h6">¡Gracias por tu calificación!</Typography>
           <Typography variant="caption">

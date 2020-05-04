@@ -5,13 +5,13 @@ import Feedback from "./Feedback/Feedback";
 import Header from "../UI/FullscreenDialog/Header";
 import Content from "../UI/FullscreenDialog/Content";
 import ConfirmationButton from "./ConfirmationButton";
-import UserInfoContainer from "./UserInfo/UserInfoContainer";
 import PlaceNewOrderButton from "./PlaceNewOrderButton";
 import { DialogTransition } from "../components";
 import { DialogPaper } from "../UI/FullscreenDialog/components";
 import DeliveryNotice from "./DeliveryNotices/DeliveryNotice";
+import Recipient from "./Recipient";
 
-const Cart = ({ userInfo, makeOrder, updateUserInfo, storeAndActions }) => (
+const Cart = ({ handleConfirmCart, storeAndActions }) => (
   <Dialog open fullScreen TransitionComponent={DialogTransition}>
     <Header
       title="Tu Pedido"
@@ -22,7 +22,7 @@ const Cart = ({ userInfo, makeOrder, updateUserInfo, storeAndActions }) => (
     <Content>
       <PlaceNewOrderButton storeAndActions={storeAndActions} />
 
-      <Items userInfo={userInfo} storeAndActions={storeAndActions} />
+      <Items storeAndActions={storeAndActions} />
 
       <Feedback storeAndActions={storeAndActions} />
 
@@ -30,16 +30,16 @@ const Cart = ({ userInfo, makeOrder, updateUserInfo, storeAndActions }) => (
 
       {!storeAndActions.store.order.status && (
         <Fragment>
-          <UserInfoContainer
-            userInfo={userInfo}
-            updateUserInfo={updateUserInfo}
-          />
+          <Recipient storeAndActions={storeAndActions} />
 
           <DialogPaper>
             <DeliveryNotice />
           </DialogPaper>
 
-          <ConfirmationButton userInfo={userInfo} makeOrder={makeOrder} />
+          <ConfirmationButton
+            storeAndActions={storeAndActions}
+            handleConfirmCart={handleConfirmCart}
+          />
         </Fragment>
       )}
     </Content>

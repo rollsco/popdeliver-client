@@ -11,7 +11,10 @@ const DeliveryNoticeDialog = ({ storeAndActions }) => (
 
       <DeliveryNotice />
       <DialogActions>
-        <Button variant="contained" onClick={storeAndActions.request}>
+        <Button
+          variant="contained"
+          onClick={storeAndActions.orderCreateOnFirestore}
+        >
           OK
         </Button>
       </DialogActions>

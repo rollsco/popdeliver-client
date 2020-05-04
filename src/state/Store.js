@@ -1,5 +1,19 @@
 import { setLocalStorageItem } from "../services/localStorage/localStorage";
 import { getCartItemId } from "./CartItem";
+import { createToken } from "../services/tokenGenerator/tokenGenerator";
+import { getOrderNumber, initialStateRecipient } from "../utils/order";
+import {
+  ORDER_STATUS_PENDING,
+  ORDER_STATUS_REQUESTED
+} from "../components/Order/orderStatusMap";
+
+export const getInitialStateOrder = () => ({
+  status: null,
+  errors: null,
+  number: null,
+  recipient: initialStateRecipient,
+  idempotencyToken: createToken()
+});
 
 export const initialStateStore = {
   cart: {
@@ -7,7 +21,7 @@ export const initialStateStore = {
     open: false,
     customizingItem: null
   },
-  order: {},
+  order: getInitialStateOrder(),
   layout: {
     sectionNumber: 0,
     deliveryPriceReminderOpen: false,
@@ -15,8 +29,8 @@ export const initialStateStore = {
   }
 };
 
-export const getStoreAndActions = storeAndSet => {
-  const [store, setStore] = storeAndSet;
+export const getStoreAndActions = ({ storeAndSetStore, firebase }) => {
+  const [store, setStore] = storeAndSetStore;
 
   const updateStoreAndLocalStorage = store => {
     setStore(store);
@@ -25,6 +39,60 @@ export const getStoreAndActions = storeAndSet => {
 
   const updateProperty = (propertyName, value) => {
     updateStoreAndLocalStorage({ ...store, [propertyName]: value });
+  };
+
+  /**
+   * Order actions
+   */
+
+  const orderOnFirestoreChange = orderOnFirebase => {
+    if (orderOnFirebase) {
+      // Override local Order with the one on Firestore
+      updateProperty("order", orderOnFirebase);
+    }
+  };
+
+  const orderSetRecipient = recipient => {
+    updateProperty("order", { ...store.order, recipient });
+  };
+
+  const orderCreateOnFirestore = () => {
+    alert("about to create an order on Firebase");
+
+    updateProperty("order", {
+      ...store.order,
+      number: getOrderNumber(new Date()),
+      status: ORDER_STATUS_PENDING
+    });
+
+    // const pointEntries = [
+    //   {
+    //     points: getTotalPoints(store.cart.items),
+    //     created: firebase.getServerTimestamp()
+    //   }
+    // ];
+
+    setTimeout(() => {
+      firebase.set({
+        path: "orders",
+        document: store.order.idempotencyToken,
+        data: {
+          ...store.order,
+          // Reduce data on Cart before saving on Firestore
+          items: store.cart.items,
+          status: ORDER_STATUS_REQUESTED
+        }
+      });
+    }, 3000);
+  };
+
+  const orderReset = () => {
+    // TODO: replace this hack with having an address list per user
+    updateProperty("order", {
+      ...getInitialStateOrder(),
+      recipient: store.order.recipient
+    });
+    cartReset();
   };
 
   /**
@@ -50,10 +118,6 @@ export const getStoreAndActions = storeAndSet => {
    * Cart actions
    */
 
-  const updateCart = cart => {
-    updateStoreAndLocalStorage({ ...store, cart });
-  };
-
   const open = () => {
     updateProperty("cart", {
       ...store.cart,
@@ -65,7 +129,7 @@ export const getStoreAndActions = storeAndSet => {
     updateProperty("cart", { ...store.cart, open: false });
   };
 
-  const clear = () => {
+  const cartReset = () => {
     updateProperty("cart", initialStateStore.cart);
   };
 
@@ -115,10 +179,14 @@ export const getStoreAndActions = storeAndSet => {
     store,
     open,
     close,
-    clear,
+    cartReset,
     upsertItem,
     removeItem,
     setCustomizingItem,
+    orderReset,
+    orderSetRecipient,
+    orderOnFirestoreChange,
+    orderCreateOnFirestore,
     layoutSetSectionNumber,
     layoutSetDeliveryPriceReminderOpen,
     layoutSetOutsideServiceHoursNoticeOpen
