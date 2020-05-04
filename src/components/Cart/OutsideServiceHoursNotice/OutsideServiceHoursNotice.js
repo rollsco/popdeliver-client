@@ -23,8 +23,8 @@ const Row = ({ location, from, until }) => (
   </TableRow>
 );
 
-const ClosedNotice = ({ scheduleOpen, storeAndActions }) => (
-  <Dialog open={scheduleOpen}>
+const OutsideServiceHoursNotice = ({ storeAndActions }) => (
+  <Dialog open={storeAndActions.store.layout.outsideServiceHoursNoticeOpen}>
     <Table size="small">
       <TableHead>
         <TableRow>
@@ -45,11 +45,11 @@ const ClosedNotice = ({ scheduleOpen, storeAndActions }) => (
     </Table>
 
     <DialogActions>
-      <Button variant="contained" onClick={storeAndActions.close}>
+      <Button variant="contained" onClick={() => storeAndActions.layoutSetOutsideServiceHoursNoticeOpen(false)}>
         OK
       </Button>
     </DialogActions>
   </Dialog>
 );
 
-export default ClosedNotice;
+export default OutsideServiceHoursNotice;

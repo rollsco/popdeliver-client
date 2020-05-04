@@ -1,6 +1,6 @@
 import React from "react";
 import { DialogContentText } from "@material-ui/core";
-import { DialogTitleCenter, DialogContentCenter } from "../components";
+import { DialogTitleCenter, DialogContentCenter } from "../Cart/components";
 import {
   orderStatusMap,
   ORDER_STATUS_PENDING,
@@ -8,8 +8,8 @@ import {
   ORDER_STATUS_REQUESTED,
   ORDER_STATUS_DISPATCHED,
 } from "./orderStatusMap";
-import { StepsProgress } from "../../UI/StepsProgress";
-import { DialogPaper } from "../../UI/FullscreenDialog/components";
+import { StepsProgress } from "../UI/StepsProgress";
+import { DialogPaper } from "../UI/FullscreenDialog/components";
 
 const steps = [
   orderStatusMap[ORDER_STATUS_PENDING].value,
@@ -18,7 +18,7 @@ const steps = [
   orderStatusMap[ORDER_STATUS_DISPATCHED].value,
 ];
 
-const ConfirmationNotice = ({ orderAndActions }) => {
+const Order = ({ orderAndActions }) => {
   const { status } = orderAndActions.order;
 
   if (!orderStatusMap[status]) {
@@ -42,4 +42,4 @@ const ConfirmationNotice = ({ orderAndActions }) => {
   );
 };
 
-export default ConfirmationNotice;
+export default Order;

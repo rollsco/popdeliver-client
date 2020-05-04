@@ -4,7 +4,7 @@ import { utcDate } from "../services/formatter/formatter";
 import {
   ORDER_STATUS_PENDING,
   ORDER_STATUS_REQUESTED
-} from "../components/Cart/Order/orderStatusMap";
+} from "../components/Order/orderStatusMap";
 import { getTotalPoints } from "../services/calculations/cart";
 
 export const getInitialStateOrder = () => ({

@@ -5,60 +5,39 @@ import Feedback from "./Feedback/Feedback";
 import Header from "../UI/FullscreenDialog/Header";
 import Content from "../UI/FullscreenDialog/Content";
 import ConfirmationButton from "./ConfirmationButton";
-import ConfirmationNotice from "./Order/ConfirmationNotice";
 import UserInfoContainer from "./UserInfo/UserInfoContainer";
-import PlaceNewOrderButton from "./Order/PlaceNewOrderButton";
-import DeliveryNotices from "./DeliveryNotices/DeliveryNotices";
-import ClosedNotice from "./ClosedNotice/ClosedNotice";
+import PlaceNewOrderButton from "./PlaceNewOrderButton";
 import { DialogTransition } from "../components";
+import { DialogPaper } from "../UI/FullscreenDialog/components";
+import DeliveryNotice from "./DeliveryNotices/DeliveryNotice";
 
-const Cart = ({
-  userInfo,
-  makeOrder,
-  scheduleOpen,
-  updateUserInfo,
-  storeAndActions,
-  orderAndActions,
-  deliveryNoticeOpen
-}) => (
+const Cart = ({ userInfo, makeOrder, updateUserInfo, storeAndActions }) => (
   <Dialog open fullScreen TransitionComponent={DialogTransition}>
     <Header
       title="Tu Pedido"
       onCloseButtonClick={storeAndActions.close}
-      hideCloseButton={orderAndActions.order.status}
+      hideCloseButton={storeAndActions.store.order.status}
     />
 
     <Content>
-      <PlaceNewOrderButton orderAndActions={orderAndActions} />
+      <PlaceNewOrderButton storeAndActions={storeAndActions} />
 
-      <ConfirmationNotice orderAndActions={orderAndActions} />
+      <Items userInfo={userInfo} storeAndActions={storeAndActions} />
 
-      <Items
-        userInfo={userInfo}
-        storeAndActions={storeAndActions}
-        orderAndActions={orderAndActions}
-      />
+      <Feedback storeAndActions={storeAndActions} />
 
-      <Feedback orderAndActions={orderAndActions} />
+      <PlaceNewOrderButton storeAndActions={storeAndActions} />
 
-      <PlaceNewOrderButton orderAndActions={orderAndActions} />
-
-      {!orderAndActions.order.status && (
+      {!storeAndActions.store.order.status && (
         <Fragment>
           <UserInfoContainer
             userInfo={userInfo}
             updateUserInfo={updateUserInfo}
           />
 
-          <DeliveryNotices
-            orderAndActions={orderAndActions}
-            isOpenDeliveryNotice={deliveryNoticeOpen}
-          />
-
-          <ClosedNotice
-            scheduleOpen={scheduleOpen}
-            storeAndActions={storeAndActions}
-          />
+          <DialogPaper>
+            <DeliveryNotice />
+          </DialogPaper>
 
           <ConfirmationButton userInfo={userInfo} makeOrder={makeOrder} />
         </Fragment>

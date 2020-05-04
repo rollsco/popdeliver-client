@@ -2,11 +2,16 @@ import { setLocalStorageItem } from "../services/localStorage/localStorage";
 import { getCartItemId } from "./CartItem";
 
 export const initialStateStore = {
-  sectionNumber: 0,
   cart: {
     items: [],
     open: false,
     customizingItem: null
+  },
+  order: {},
+  layout: {
+    sectionNumber: 0,
+    deliveryPriceReminderOpen: false,
+    outsideServiceHoursNoticeOpen: false
   }
 };
 
@@ -18,24 +23,50 @@ export const getStoreAndActions = storeAndSet => {
     setLocalStorageItem("store", store);
   };
 
+  const updateProperty = (propertyName, value) => {
+    updateStoreAndLocalStorage({ ...store, [propertyName]: value });
+  };
+
+  /**
+   * Layout actions
+   */
+
+  const layoutSetOutsideServiceHoursNoticeOpen = outsideServiceHoursNoticeOpen => {
+    updateProperty("layout", {
+      ...store.layout,
+      outsideServiceHoursNoticeOpen
+    });
+  };
+
+  const layoutSetDeliveryPriceReminderOpen = deliveryPriceReminderOpen => {
+    updateProperty("layout", { ...store.layout, deliveryPriceReminderOpen });
+  };
+
+  const layoutSetSectionNumber = sectionNumber => {
+    updateProperty("layout", { ...store.layout, sectionNumber });
+  };
+
+  /**
+   * Cart actions
+   */
+
   const updateCart = cart => {
     updateStoreAndLocalStorage({ ...store, cart });
   };
 
-  const updateSectionNumber = sectionNumber => {
-    updateStoreAndLocalStorage({ ...store, sectionNumber });
-  };
-
   const open = () => {
-    updateCart({ ...store.cart, open: store.cart.items.length > 0 });
+    updateProperty("cart", {
+      ...store.cart,
+      open: store.cart.items.length > 0
+    });
   };
 
   const close = () => {
-    updateCart({ ...store.cart, open: false });
+    updateProperty("cart", { ...store.cart, open: false });
   };
 
   const clear = () => {
-    updateCart(initialStateStore.cart);
+    updateProperty("cart", initialStateStore.cart);
   };
 
   const removeItem = itemToRemove => {
@@ -45,14 +76,14 @@ export const getStoreAndActions = storeAndSet => {
       store.cart.open = false;
     }
 
-    updateCart({
+    updateProperty("cart", {
       ...store.cart,
       items
     });
   };
 
   const setCustomizingItem = cartItem => {
-    updateCart({
+    updateProperty("cart", {
       ...store.cart,
       customizingItem: cartItem
     });
@@ -62,7 +93,7 @@ export const getStoreAndActions = storeAndSet => {
     if (!cartItem.id) {
       const newCartItem = { ...cartItem, id: getCartItemId() };
 
-      updateCart({
+      updateProperty("cart", {
         ...store.cart,
         items: [...store.cart.items, newCartItem],
         customizingItem: null
@@ -72,7 +103,7 @@ export const getStoreAndActions = storeAndSet => {
         item => item.id !== cartItem.id
       );
 
-      updateCart({
+      updateProperty("cart", {
         ...store.cart,
         items: [...itemsExceptUpdated, cartItem],
         customizingItem: null
@@ -82,13 +113,14 @@ export const getStoreAndActions = storeAndSet => {
 
   return {
     store,
-    cart: store,
     open,
     close,
     clear,
     upsertItem,
     removeItem,
     setCustomizingItem,
-    updateSectionNumber
+    layoutSetSectionNumber,
+    layoutSetDeliveryPriceReminderOpen,
+    layoutSetOutsideServiceHoursNoticeOpen
   };
 };

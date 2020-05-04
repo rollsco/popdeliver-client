@@ -1,9 +1,10 @@
 import React from "react";
 import { Button } from "@material-ui/core";
-import { CartButtonBox } from "../components";
+import { CartButtonBox } from "./components";
 
-const PlaceNewOrderButton = ({ orderAndActions }) => {
-  if (!orderAndActions.order.status) {
+const PlaceNewOrderButton = ({ storeAndActions }) => {
+  const { order } = storeAndActions.store;
+  if (!order.status) {
     return null;
   }
 
@@ -12,7 +13,7 @@ const PlaceNewOrderButton = ({ orderAndActions }) => {
       <Button
         color="secondary"
         variant="contained"
-        onClick={orderAndActions.placeNewOrder}
+        onClick={storeAndActions.placeNewOrder}
       >
         Volver a la carta
       </Button>

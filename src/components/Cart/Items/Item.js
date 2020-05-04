@@ -13,7 +13,7 @@ import { DialogPaper } from "../../UI/FullscreenDialog/components";
 import { getVariantImagePathname } from "../../../state/Variant";
 import VariantPrice from "../../Layout/VariantPrice";
 
-const Item = ({ orderAndActions, item, storeAndActions }) => (
+const Item = ({ item, storeAndActions }) => (
   <DialogPaper>
     <Table size="small">
       <TableBody>
@@ -36,7 +36,7 @@ const Item = ({ orderAndActions, item, storeAndActions }) => (
             </TableRow>
           ))}
 
-        {!orderAndActions.order.status && (
+        {!storeAndActions.store.order.status && (
           <TableRow>
             <TableCell colSpan={99} align="right">
               <Fragment>

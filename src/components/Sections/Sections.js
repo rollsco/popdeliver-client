@@ -10,17 +10,15 @@ const StyledSections = styled.div`
 `;
 
 const Sections = ({ storeAndActions }) => {
-  const { sectionNumber } = storeAndActions.store;
+  const { layout } = storeAndActions.store;
   const handleChangeTab = (event, value) => {
-    storeAndActions.updateSectionNumber(value);
+    storeAndActions.layoutSetSectionNumber(value);
   };
-
-  const handleChangeSwipableView = value => {};
 
   return (
     <StyledSections>
       <Tabs
-        value={sectionNumber}
+        value={layout.sectionNumber}
         variant="scrollable"
         scrollButtons="auto"
         onChange={handleChangeTab}

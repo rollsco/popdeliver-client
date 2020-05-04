@@ -3,7 +3,7 @@ import GroupWorkOutlined from "@material-ui/icons/GroupWorkOutlined";
 import Motorcycle from "@material-ui/icons/MotorcycleTwoTone";
 import ThumbUp from "@material-ui/icons/ThumbUp";
 import Receipt from "@material-ui/icons/Receipt";
-import { golden } from "../../../theme";
+import { golden } from "../../theme";
 
 export const AnimatedMotorcycle = styled(Motorcycle)`
   animation-name: motoOut;

@@ -17,8 +17,6 @@ const CartContainer = ({ storeAndActions, firebase }) => {
     getLocalStorageItem("userInfo", initialStateUserInfo)
   );
   const [currentDate, setCurrentDate] = useState(null);
-  const [scheduleOpen, setScheduleOpen] = useState(false);
-  const [deliveryNoticeOpen, setDeliveryNoticeOpen] = useState(false);
 
   const orderAndActions = getOrderAndActions({
     storeAndActions,
@@ -30,9 +28,9 @@ const CartContainer = ({ storeAndActions, firebase }) => {
 
   const makeOrder = async () => {
     if (isStoreOpen(currentDate)) {
-      setDeliveryNoticeOpen(true);
+      storeAndActions.layoutSetDeliveryPriceReminderOpen(true);
     } else {
-      setScheduleOpen(true);
+      storeAndActions.layoutSetOutsideServiceHoursNoticeOpen(true);
     }
   };
 
@@ -63,11 +61,8 @@ const CartContainer = ({ storeAndActions, firebase }) => {
     <Cart
       userInfo={userInfo}
       makeOrder={makeOrder}
-      scheduleOpen={scheduleOpen}
       updateUserInfo={updateUserInfo}
       storeAndActions={storeAndActions}
-      orderAndActions={orderAndActions}
-      deliveryNoticeOpen={deliveryNoticeOpen}
     />
   );
 };

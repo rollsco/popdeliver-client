@@ -11,7 +11,8 @@ const MuiContainer = styled(Container)`
 `;
 
 const Section = ({ storeAndActions }) => {
-  const { sectionNumber } = storeAndActions.store;
+  const { layout } = storeAndActions.store;
+  const { sectionNumber } = layout;
   const section = menuSections[sectionNumber];
 
   const sectionProducts = selectOrderedObjects(section.products, products);
