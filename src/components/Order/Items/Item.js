@@ -6,14 +6,12 @@ import {
   Table,
   TableBody
 } from "@material-ui/core";
-import Edit from "@material-ui/icons/Edit";
-import Delete from "@material-ui/icons/Delete";
 import { Image, BasicInfo, CartName } from "./components";
 import { DialogPaper } from "../../UI/FullscreenDialog/components";
 import { getVariantImagePathname } from "../../../state/Variant";
 import VariantPrice from "../../Layout/VariantPrice";
 
-const Item = ({ item, storeAndActions }) => (
+const Item = ({ item }) => (
   <DialogPaper>
     <Table size="small">
       <TableBody>
@@ -35,25 +33,6 @@ const Item = ({ item, storeAndActions }) => (
               </TableCell>
             </TableRow>
           ))}
-
-        <TableRow>
-          <TableCell colSpan={99} align="right">
-            <Fragment>
-              <IconButton
-                size="small"
-                onClick={() => storeAndActions.cartSetCustomizingItem(item)}
-              >
-                <Edit />
-              </IconButton>
-              <IconButton
-                size="small"
-                onClick={() => storeAndActions.removeItem(item)}
-              >
-                <Delete />
-              </IconButton>
-            </Fragment>
-          </TableCell>
-        </TableRow>
       </TableBody>
     </Table>
   </DialogPaper>

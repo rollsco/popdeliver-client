@@ -15,7 +15,7 @@ const Cart = ({ handleConfirmCart, storeAndActions }) => (
   <Dialog open fullScreen TransitionComponent={DialogTransition}>
     <Header
       title="Tu Pedido"
-      onCloseButtonClick={storeAndActions.close}
+      onCloseButtonClick={storeAndActions.cartSetClose}
       hideCloseButton={storeAndActions.store.order.status}
     />
 
@@ -23,8 +23,6 @@ const Cart = ({ handleConfirmCart, storeAndActions }) => (
       <PlaceNewOrderButton storeAndActions={storeAndActions} />
 
       <Items storeAndActions={storeAndActions} />
-
-      <Feedback storeAndActions={storeAndActions} />
 
       <PlaceNewOrderButton storeAndActions={storeAndActions} />
 

@@ -8,6 +8,7 @@ import {
 } from "../components/Order/orderStatusMap";
 
 export const getInitialStateOrder = () => ({
+  open: false,
   number: null,
   status: null,
   errors: null,
@@ -90,7 +91,8 @@ export const getStoreAndActions = ({ storeAndSetStore, firebase }) => {
       ...getInitialStateOrder(),
       recipient: store.order.recipient
     });
-    cartReset();
+
+    updateProperty("cart", initialStateStore.cart);
   };
 
   const orderSetRating = rating => {

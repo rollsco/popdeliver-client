@@ -27,7 +27,7 @@ const LayoutPage = ({ storeAndActions }) => (
       <CartContainer storeAndActions={storeAndActions} />
     )}
 
-    {/* <Order storeAndActions={storeAndActions} /> */}
+    <Order storeAndActions={storeAndActions} />
 
     <DeliveryNoticeDialog storeAndActions={storeAndActions} />
 

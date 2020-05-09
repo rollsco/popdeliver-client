@@ -16,8 +16,8 @@ import VariantPrice from "../../Layout/VariantPrice";
 const CustomizeItem = ({ storeAndActions }) => {
   const { cart } = storeAndActions.store;
   const { customizingItem } = cart;
-  
-  if(!customizingItem) {
+
+  if (!customizingItem) {
     return null;
   }
 
@@ -26,19 +26,19 @@ const CustomizeItem = ({ storeAndActions }) => {
   const product = products[productId];
 
   const handleClose = () => {
-    storeAndActions.setCustomizingItem(null);
+    storeAndActions.cartSetCustomizingItem(null);
   };
 
   const handleChangeMain = event => {
     const cartItem = {
       ...getNewCartItem({ mainVariantId: event.target.value }),
-      id: customizingItem.id,
+      id: customizingItem.id
     };
-    storeAndActions.setCustomizingItem(cartItem);
+    storeAndActions.cartSetCustomizingItem(cartItem);
   };
 
   const handleAddToCart = () => {
-    storeAndActions.upsertItem(customizingItem);
+    storeAndActions.cartUpsertItem(customizingItem);
   };
 
   return (

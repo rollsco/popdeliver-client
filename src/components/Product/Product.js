@@ -7,7 +7,7 @@ import { getNewCartItem } from "../../state/CartItem";
 const Product = ({ product, storeAndActions }) => {
   const handleOpenCustomizeDialog = () => {
     const cartItem = getNewCartItem({ mainVariantId: product.variants[0] });
-    storeAndActions.setCustomizingItem(cartItem);
+    storeAndActions.cartSetCustomizingItem(cartItem);
   };
 
   return (
